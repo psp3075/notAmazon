@@ -67,3 +67,21 @@
   margin-left: 10px;
   margin-right: 10px;
 }
+
+@media (max-width: 550px) {
+  .header {
+    justify-content: space-between;
+    width: 78%;
+  }
+
+  .header__logo {
+    width: 70px;
+  }
+  .header__search {
+    display: none;
+  }
+
+  .header__option:last-child {
+    display: none;
+  }
+}
