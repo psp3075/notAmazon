@@ -1,3 +1,6 @@
+a {
+  text-decoration: none;
+}
 .header {
   height: 60px;
   display: flex;
@@ -71,7 +74,7 @@
 @media (max-width: 550px) {
   .header {
     justify-content: space-between;
-    width: 78%;
+    width: 100%;
   }
 
   .header__logo {
