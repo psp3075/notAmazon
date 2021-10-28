@@ -17,15 +17,19 @@ function Checkout() {
         />
         <h3>Hello, {user?.email}</h3>
         <h2 className="checkout__title">Your Shopping Cart</h2>
-        {basket.map((item) => (
-          <CheckoutProduct
-            id={item.id}
-            title={item.title}
-            image={item.image}
-            price={item.price}
-            rating={item.rating}
-          />
-        ))}
+        {basket.length !== 0 ? (
+          basket.map((item) => (
+            <CheckoutProduct
+              id={item.id}
+              title={item.title}
+              image={item.image}
+              price={item.price}
+              rating={item.rating}
+            />
+          ))
+        ) : (
+          <p>Your cart is empty, Go shopping</p>
+        )}
       </div>
 
       <div>

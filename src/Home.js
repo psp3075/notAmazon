@@ -59,6 +59,36 @@ function Home() {
             rating={5}
           />
         </div>
+        <div className="home__row">
+          <Product
+            id="7"
+            title="Ariel Matic Top Load Detergent Washing Powder - 4 kg with Free Detergent Powder - 2 kg"
+            price={999}
+            image="https://m.media-amazon.com/images/I/71Nd4RhZ4sL._SL1500_.jpg"
+            rating={4}
+          />
+          <Product
+            id="8"
+            title="MuscleBlaze Raw Whey Protein"
+            price={1999}
+            image="https://m.media-amazon.com/images/I/613bnSZnZ9L._SL1500_.jpg"
+            rating={5}
+          />
+          <Product
+            id="9"
+            title="Decals Design  - Wall Sticker"
+            price={99}
+            image="https://m.media-amazon.com/images/I/715YNejm3FL._SL1000_.jpg"
+            rating={4}
+          />
+          <Product
+            id="10"
+            title="Royal Enfield Unbent Polo T-Shirt"
+            price={1299}
+            image="https://m.media-amazon.com/images/I/81ft4I1HtAL._UL1500_.jpg"
+            rating={4}
+          />
+        </div>
       </div>
     </div>
   );

@@ -1,3 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Zen+Antique&display=swap");
+
+* {
+  font-family: "Zen Antique", sans-serif;
+}
 body {
   margin: 0;
   width: 100%;

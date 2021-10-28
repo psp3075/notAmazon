@@ -3,6 +3,7 @@ import { db } from "./firebase";
 import "./Orders.css";
 import { useStateValue } from "./StateProvider";
 import Order from "./Order";
+import empty from "./empty.svg";
 
 function Orders() {
   const [{ basket, user }, dispatch] = useStateValue();
@@ -30,7 +31,15 @@ function Orders() {
   return (
     <div className="orders">
       <h1>Your Orders</h1>
-      <h1>Thanks for Ordering</h1>
+      {orders.length !== 0 ? (
+        <h1>Thanks for Ordering</h1>
+      ) : (
+        <>
+          <p>Yours Orders will appear here</p>
+          <img src={empty} alt="" />
+          <p>Go Shopping !!!</p>
+        </>
+      )}
 
       <div className="orders__order">
         {orders?.map((order) => (

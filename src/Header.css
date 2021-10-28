@@ -41,6 +41,8 @@ a {
 .header__nav {
   display: flex;
   justify-content: space-evenly;
+  position: absolute;
+  right: 20px;
 }
 
 .header__option {
