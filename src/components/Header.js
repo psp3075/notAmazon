@@ -1,17 +1,22 @@
 import React from "react";
 import "./Header.css";
-import SearchIcon from "@material-ui/icons/Search";
 import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
 import { Link } from "react-router-dom";
-import { useStateValue } from "./StateProvider";
-import { auth } from "./firebase";
+import { useStateValue } from "../StateProvider";
+// import { auth } from "./firebase";
+import { useCart } from "react-use-cart";
 
 function Header() {
-  const [{ basket, user }, dispatch] = useStateValue();
+  const [{ user }, dispatch] = useStateValue();
+  const { totalItems } = useCart();
 
   const handleAuthentication = () => {
     if (user) {
-      auth.signOut();
+      // auth?.signOut();
+      dispatch({
+        type: "LOGOUT_USER",
+        user: null,
+      });
     }
   };
 
@@ -24,12 +29,6 @@ function Header() {
           alt="logo"
         />
       </Link>
-
-      {/* <div className="header__search">
-        <input className="header__searchInput" type="text" />
-        <SearchIcon className="header__searchIcon" />
-      </div> */}
-
       <div className="header__nav">
         <Link to={!user && "/login"}>
           <div onClick={handleAuthentication} className="header__option">
@@ -55,7 +54,7 @@ function Header() {
           <div className="header__optionBasket">
             <ShoppingBasketIcon />
             <span className="header__optionLineTwo header__basketCount">
-              {basket?.length}
+              {totalItems}
             </span>
           </div>
         </Link>

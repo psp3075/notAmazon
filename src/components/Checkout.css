@@ -15,6 +15,11 @@
   margin-bottom: 10px;
 }
 
+.checkout__image {
+  width: 300px;
+  height: 300px;
+}
+
 .checkout__title {
   margin-right: 10px;
   padding: 10px;

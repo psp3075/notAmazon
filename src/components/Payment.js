@@ -1,27 +1,33 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./Payment.css";
-import { useStateValue } from "./StateProvider";
+import { useStateValue } from "../StateProvider";
 import CheckoutProduct from "./CheckoutProduct";
 import { Link, useHistory } from "react-router-dom";
-import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { CardElement } from "@stripe/react-stripe-js";
 import CurrencyFormat from "react-currency-format";
-import { getBasketTotal } from "./reducer";
-import axios from "./axios";
+// import { getBasketTotal } from "./reducer";
+// import axios from "./axios";
 import { nanoid } from "nanoid";
-import { db } from "./firebase";
+import { db } from "../firebase";
+import { useCart } from "react-use-cart";
 
 export default function Payment() {
-  const [{ basket, user }, dispatch] = useStateValue();
+  const [{ user }, dispatch] = useStateValue();
   const history = useHistory();
-
-  const [error, setError] = useState(null);
+  // const [error, setError] = useState(null);
   const [disabled, setDisabled] = useState(true);
   const [succeeded, setSucceeded] = useState(false);
   const [processing, setProcessing] = useState("");
-  const [clientSecret, setClientSecret] = useState(true);
+  // const [clientSecret, setClientSecret] = useState(true);
+  const [name, setName] = useState("");
+  const [contact, setContact] = useState("");
+  const [streetAddress, setStreetAddress] = useState("");
+  const [pincode, setPincode] = useState();
 
-  const stripe = useStripe();
-  const elements = useElements();
+  // const stripe = useStripe();
+  // const elements = useElements();
+
+  const { items, totalItems, cartTotal } = useCart();
 
   // useEffect(() => {
   //   const getClientSecret = async () => {
@@ -62,13 +68,19 @@ export default function Payment() {
         .collection("orders")
         .doc(nanoid())
         .set({
-          basket: basket,
-          amount: getBasketTotal(basket) * 100,
+          basket: items,
+          amount: cartTotal * 100,
           created: new Date(),
+          address: {
+            name: name,
+            streetAddress: streetAddress,
+            pincode: pincode,
+            contact: contact,
+          },
         });
 
       setSucceeded(true);
-      setError(null);
+      // setError(null);
       setProcessing(false);
 
       dispatch({
@@ -79,14 +91,14 @@ export default function Payment() {
   };
   const handleChange = (event) => {
     setDisabled(event.empty);
-    setError(event.error ? event.error.message : "");
+    // setError(event.error ? event.error.message : "");
   };
 
   return (
     <div className="payment">
       <div className="payment__container">
         <h1>
-          Checkout (<Link to="/checkout">{basket?.length} items</Link>)
+          Checkout (<Link to="/checkout">{totalItems} items</Link>)
         </h1>
         <div className="payment__section">
           <div className="payment__title">
@@ -94,10 +106,43 @@ export default function Payment() {
           </div>
           <div className="payment__address">
             <p>{user?.email}</p>
-            <label>Address</label>
-            <input type="text" placeholder="Please type your address" />
-            <label>Contact no.</label>
-            <input type="text" placeholder="Contact details" />
+            <h3>Address</h3>
+            <label>Name</label>
+            <input
+              type="text"
+              placeholder="Please type your name"
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
+            />
+            <label>street Address</label>
+            <input
+              type="text"
+              placeholder="Street Address"
+              value={streetAddress}
+              onChange={(e) => {
+                setStreetAddress(e.target.value);
+              }}
+            />
+            <label>Pincode</label>
+            <input
+              type="number"
+              placeholder="Pincode"
+              value={pincode}
+              onChange={(e) => {
+                setPincode(e.target.value);
+              }}
+            />
+            <label>Contact number</label>
+            <input
+              type="number"
+              placeholder="Contact details"
+              value={contact}
+              onChange={(e) => {
+                setContact(e.target.value);
+              }}
+            />
           </div>
         </div>
         <div className="payment__section">
@@ -105,13 +150,14 @@ export default function Payment() {
             <h3>Review items and delivery</h3>
           </div>
           <div className="payment__items">
-            {basket.map((item) => (
+            {items.map((item) => (
               <CheckoutProduct
                 id={item.id}
                 title={item.title}
                 image={item.image}
                 price={item.price}
                 rating={item.rating}
+                quantity={item.quantity}
               />
             ))}
           </div>
@@ -131,16 +177,25 @@ export default function Payment() {
                     </>
                   )}
                   decimalScale={2}
-                  value={getBasketTotal(basket)}
+                  value={cartTotal}
                   displayType={"text"}
                   thousandSeparator={true}
                   prefix={"₹"}
                 />
-                <button disabled={processing || disabled || succeeded}>
+                <button
+                  disabled={
+                    !contact ||
+                    !name ||
+                    !streetAddress ||
+                    !pincode ||
+                    processing ||
+                    disabled ||
+                    succeeded
+                  }
+                >
                   <span>{processing ? <p>Processing</p> : "Buy Now"}</span>
                 </button>
               </div>
-              {error && <div></div>}
             </form>
           </div>
         </div>

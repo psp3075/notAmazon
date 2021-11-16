@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import "./Login.css";
-import { auth } from "./firebase";
+import { auth } from "../firebase";
 
 function Login() {
   const history = useHistory();
@@ -44,7 +44,7 @@ function Login() {
       </Link>
 
       <div className="login__container">
-        <h1 className="login__title">Sign-in</h1>
+        <h1>Sign-in</h1>
         <form>
           <h5>Email Address</h5>
           <input
@@ -62,7 +62,8 @@ function Login() {
           <button
             type="submit"
             onClick={signIn}
-            className="login__signInButton">
+            className="login__signInButton"
+          >
             Sign In
           </button>
         </form>
@@ -71,7 +72,8 @@ function Login() {
         <button
           type="submit"
           onClick={register}
-          className="login__registerButton">
+          className="login__registerButton"
+        >
           Create your Amazon account
         </button>
       </div>

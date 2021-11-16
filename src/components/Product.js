@@ -1,22 +1,25 @@
 import React from "react";
 import "./Product.css";
-import { useStateValue } from "./StateProvider";
+// import { useStateValue } from "./StateProvider";
+import { useCart } from "react-use-cart";
 
 function Product({ id, title, image, price, rating }) {
-  const [{ basket }, dispatch] = useStateValue();
+  // const [, dispatch] = useStateValue();
+  const { addItem } = useCart();
   //console.log("this is ", basket);
-  const addToBasket = () => {
-    dispatch({
-      type: "ADD_TO_BASKET",
-      item: {
-        id: id,
-        title: title,
-        image: image,
-        price: price,
-        rating: rating,
-      },
-    });
+  let item = {
+    id: id,
+    title: title,
+    image: image,
+    price: price,
+    rating: rating,
   };
+  // const addToBasket = () => {
+  //   dispatch({
+  //     type: "ADD_TO_BASKET",
+  //     item: item,
+  //   });
+  // };
   return (
     <div className="product">
       <div className="product__info">
@@ -29,12 +32,13 @@ function Product({ id, title, image, price, rating }) {
           {Array(rating)
             .fill()
             .map((_, i) => (
-              <p>⭐</p>
+              <p key={i}>⭐</p>
             ))}
         </div>
       </div>
       <img src={image} alt="" />
-      <button onClick={addToBasket}>Add to Cart</button>
+      {/* <button onClick={addToBasket}>Add to Cart</button> */}
+      <button onClick={() => addItem(item)}>Add to Cart</button>
     </div>
   );
 }
